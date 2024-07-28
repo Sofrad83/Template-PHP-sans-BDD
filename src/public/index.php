@@ -4,6 +4,16 @@ use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
+session_start();
+
+if (!isset($_SESSION['initialized'])) {
+    // Initialiser les variables globales
+    $_SESSION['lang'] = 'fr';
+    
+    // Indiquer que les variables ont été initialisées
+    $_SESSION['initialized'] = true;
+}
+
 // Instantiate App
 $app = AppFactory::create();
 

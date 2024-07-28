@@ -8,6 +8,8 @@ class BaseController{
   public $status = 200;
   public $response;
 
+  public $json = false;
+
   public function __construct($action, $request, $response){
     if (!method_exists($this, $action)){
       $this->template = "page404";
@@ -15,7 +17,11 @@ class BaseController{
       return;
     }
     $this->$action($request);
-    $this->makePage($response);
+    if($this->json){
+      $this->makeJson($response);
+    }else{
+      $this->makePage($response);
+    }
   }
 
   public function makePage($response){
@@ -23,5 +29,10 @@ class BaseController{
     $html = $twig->render($this->template.".twig", $this->data);
     $response->getBody()->write($html);
     $this->response  = $response;
+  }
+
+  public function makeJson($response){
+    $response->getBody()->write(json_encode($this->data));
+    $this->response  = $response->withHeader('Content-Type', 'application/json');
   }
 }
