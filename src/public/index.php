@@ -1,6 +1,7 @@
 <?php
 
 use Slim\Factory\AppFactory;
+use App\Support\Route;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -27,6 +28,8 @@ $twig = new Twig\Environment($loader, [
 ]);
 
 $twig->addExtension(new \Twig\Extension\DebugExtension());
+
+Route::init($app);
 
 //Liste des routes
 include_once(__DIR__ . '/../routes/app.php');
